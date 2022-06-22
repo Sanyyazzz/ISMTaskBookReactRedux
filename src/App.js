@@ -1,10 +1,12 @@
-import './App.css';
-import TaskList from './component/TaskList'
+import './UI/styles/App.css';
+import TaskList from './UI/component/TaskList'
+import InputTask from './UI/component/InputTask'
 
 function App() {
   return (
     <div className="App">
-        <TaskList />
+        <InputTask/>
+        <TaskList/>
     </div>
   );
 }
