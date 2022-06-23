@@ -1,41 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import style from '../styles/styleTable.css';
-import {useDispatch} from "react-redux";
-import {completed} from "../../DATA/reducers/tasksSlice";
+import RowEdit from "./RowEdit";
+import RowTask from "./RowTask";
 
-const RowTask = ({task}) => {
+const RowOfTaskList = (props) => {
+    const[stateRow,setState]=useState('rowTask');
 
-    const distpatch = useDispatch();
-
-    const Complete = () => {
-        distpatch(completed(task.id));
+    const onEditTask = () => {
+        if(props.count > 0){ alert("You edit another task"); }
+        else{
+            props.setCount(1);
+            setState('rowEdit');
+        }
     }
 
-    if(task.important == true){
-        return (
-            <tr>
-                <td><img src = "http://s1.iconbird.com/ico/2013/9/452/w512h4961380477090star.png" width="20px"/></td>
-                <td>{task.taskDesc}</td>
-                <td>{task.deadLine}</td>
-                <td>{task.category}</td>
-                <td>
-                    <button type="button" onClick={Complete}>Completed</button>
-                </td>
-            </tr>
-        )
-    }else{
-        return (
-            <tr key={task.id}>
-                <td></td>
-                <td>{task.taskDesc}</td>
-                <td>{task.deadLine}</td>
-                <td>{task.category}</td>
-                <td>
-                    <button type="button" onClick={Complete}>Completed</button>
-                </td>
-            </tr>
-        )
+    const onSaveTask = (s) => {
+        setState('rowTask');
+        props.setCount(0);
+    }
+
+    switch(stateRow){
+
+        case 'rowTask': return(<RowTask task={props.task} func={onEditTask} />);
+
+        case 'rowEdit': return(<RowEdit task={props.task} func={onSaveTask} />);
+
+        default: return(<tr></tr>);
     }
 }
 
-export default RowTask;
+export default RowOfTaskList;

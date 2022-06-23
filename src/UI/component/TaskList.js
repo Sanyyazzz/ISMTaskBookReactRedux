@@ -1,15 +1,18 @@
-import React from 'react';
+import {React, useState} from 'react';
 import '../styles/index.css';
 import RowTask from "./RowOfTaskList";
+import RowEdit from "./RowEdit";
 import style from '../styles/styleTable.css';
 import {useSelector} from "react-redux";
 
 const TaskList = () => {
 
-    const tasksList = useSelector(store=>store.tasks.tasks);
+    const[countOfActiveEdit,setCountOfActiveEdit]=useState(0);
 
-    const tasks = tasksList.map((task) =>
-        <RowTask  key={task.id} task={task} />
+    const tasksObj = useSelector(store=>store.tasks.tasks);
+
+    const tasks = tasksObj.map((task) =>
+        <RowTask key={task.id} task={task} count={countOfActiveEdit} setCount = {setCountOfActiveEdit} />
     )
 
     return(
@@ -25,11 +28,10 @@ const TaskList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {tasks}
+                    {tasks}
                 </tbody>
             </table>
         </div>
-
     )
 }
 
